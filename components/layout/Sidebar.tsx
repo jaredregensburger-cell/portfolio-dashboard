@@ -72,7 +72,7 @@ export function Sidebar() {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={String(item.href)}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
                 'transition-all duration-150 group relative',
@@ -111,7 +111,7 @@ export function Sidebar() {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={String(item.href)}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
                 'transition-all duration-150 group relative',
