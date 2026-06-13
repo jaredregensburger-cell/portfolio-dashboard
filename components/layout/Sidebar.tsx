@@ -11,14 +11,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store'
 
 type NavItem = {
   label: string
-  href: string
-  icon: any
+  href: any
+  icon: LucideIcon
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -46,7 +47,6 @@ export function Sidebar() {
         isCollapsed ? 'w-16' : 'w-sidebar'
       )}
     >
-      {/* Logo */}
       <div className="flex items-center gap-3 h-topbar px-4 border-b border-border shrink-0">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-signal-gradient">
           <Zap size={16} className="text-white" strokeWidth={2.5} />
@@ -60,19 +60,17 @@ export function Sidebar() {
         )}
       </div>
 
-      {/* Main Nav */}
       <nav className="flex-1 py-4 px-2 space-y-0.5 overflow-y-auto">
         {NAV_ITEMS.map((item) => {
           const isActive =
-            pathname === item.href ||
-            pathname.startsWith(item.href + '/')
+            pathname === item.href || pathname.startsWith(item.href + '/')
 
           const Icon = item.icon
 
           return (
             <Link
               key={item.href}
-              href={String(item.href)}
+              href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
                 'transition-all duration-150 group relative',
@@ -102,7 +100,6 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Bottom Nav */}
       <div className="py-4 px-2 space-y-0.5 border-t border-border shrink-0">
         {BOTTOM_ITEMS.map((item) => {
           const isActive = pathname === item.href
@@ -111,7 +108,7 @@ export function Sidebar() {
           return (
             <Link
               key={item.href}
-              href={String(item.href)}
+              href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
                 'transition-all duration-150 group relative',
@@ -131,16 +128,15 @@ export function Sidebar() {
           )
         })}
 
-        {/* Collapse toggle */}
         <button
           onClick={toggleSidebar}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-ink-faint hover:text-ink-muted hover:bg-surface-raised transition-all duration-150 border border-transparent"
         >
           {isCollapsed ? (
-            <ChevronRight size={18} />
+            <ChevronRight size={18} strokeWidth={1.75} className="shrink-0" />
           ) : (
             <>
-              <ChevronLeft size={18} />
+              <ChevronLeft size={18} strokeWidth={1.75} className="shrink-0" />
               <span className="text-data-sm font-medium animate-fade-in">
                 Collapse
               </span>
