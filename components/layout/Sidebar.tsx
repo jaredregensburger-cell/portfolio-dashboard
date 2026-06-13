@@ -15,14 +15,22 @@ import {
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store'
 
-const NAV_ITEMS = [
+type NavItem = {
+  label: string
+  href: string
+  icon: any
+}
+
+const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Portfolio', href: '/portfolio', icon: PieChart },
   { label: 'Assets', href: '/assets', icon: TrendingUp },
   { label: 'Transactions', href: '/transactions', icon: ArrowLeftRight },
 ]
 
-const BOTTOM_ITEMS = [{ label: 'Settings', href: '/settings', icon: Settings }]
+const BOTTOM_ITEMS: NavItem[] = [
+  { label: 'Settings', href: '/settings', icon: Settings },
+]
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -39,15 +47,11 @@ export function Sidebar() {
       )}
     >
       {/* Logo */}
-      <div
-        className={cn(
-          'flex items-center gap-3 h-topbar px-4 border-b border-border',
-          'shrink-0'
-        )}
-      >
+      <div className="flex items-center gap-3 h-topbar px-4 border-b border-border shrink-0">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-signal-gradient">
           <Zap size={16} className="text-white" strokeWidth={2.5} />
         </div>
+
         {!isCollapsed && (
           <div className="animate-fade-in">
             <p className="font-semibold text-ink text-sm leading-tight">Folio</p>
@@ -59,10 +63,15 @@ export function Sidebar() {
       {/* Main Nav */}
       <nav className="flex-1 py-4 px-2 space-y-0.5 overflow-y-auto">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isActive =
+            pathname === item.href ||
+            pathname.startsWith(item.href + '/')
+
           const Icon = item.icon
+
           return (
             <Link
+              key={item.href}
               href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
@@ -77,6 +86,7 @@ export function Sidebar() {
                 strokeWidth={isActive ? 2.5 : 1.75}
                 className={cn('shrink-0', isActive ? 'text-signal' : '')}
               />
+
               {!isCollapsed && (
                 <span
                   className={cn(
@@ -86,18 +96,6 @@ export function Sidebar() {
                 >
                   {item.label}
                 </span>
-              )}
-              {/* Active indicator */}
-              {isActive && (
-                <span className="absolute right-2.5 h-1.5 w-1.5 rounded-full bg-signal" />
-              )}
-              {/* Collapsed tooltip */}
-              {isCollapsed && (
-                <div className="absolute left-full ml-2 hidden group-hover:flex items-center">
-                  <div className="bg-surface-elevated border border-border rounded-md px-2.5 py-1 text-data-sm text-ink whitespace-nowrap shadow-glass">
-                    {item.label}
-                  </div>
-                </div>
               )}
             </Link>
           )
@@ -109,6 +107,7 @@ export function Sidebar() {
         {BOTTOM_ITEMS.map((item) => {
           const isActive = pathname === item.href
           const Icon = item.icon
+
           return (
             <Link
               key={item.href}
@@ -122,15 +121,11 @@ export function Sidebar() {
               )}
             >
               <Icon size={18} strokeWidth={1.75} className="shrink-0" />
+
               {!isCollapsed && (
-                <span className="text-data-sm font-medium animate-fade-in">{item.label}</span>
-              )}
-              {isCollapsed && (
-                <div className="absolute left-full ml-2 hidden group-hover:flex items-center">
-                  <div className="bg-surface-elevated border border-border rounded-md px-2.5 py-1 text-data-sm text-ink whitespace-nowrap shadow-glass">
-                    {item.label}
-                  </div>
-                </div>
+                <span className="text-data-sm font-medium animate-fade-in">
+                  {item.label}
+                </span>
               )}
             </Link>
           )
@@ -142,11 +137,13 @@ export function Sidebar() {
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-ink-faint hover:text-ink-muted hover:bg-surface-raised transition-all duration-150 border border-transparent"
         >
           {isCollapsed ? (
-            <ChevronRight size={18} strokeWidth={1.75} className="shrink-0" />
+            <ChevronRight size={18} />
           ) : (
             <>
-              <ChevronLeft size={18} strokeWidth={1.75} className="shrink-0" />
-              <span className="text-data-sm font-medium animate-fade-in">Collapse</span>
+              <ChevronLeft size={18} />
+              <span className="text-data-sm font-medium animate-fade-in">
+                Collapse
+              </span>
             </>
           )}
         </button>
