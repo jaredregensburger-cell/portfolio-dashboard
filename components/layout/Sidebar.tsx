@@ -63,7 +63,6 @@ export function Sidebar() {
           const Icon = item.icon
           return (
             <Link
-              href={item.href as any}
               href={item.href}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5',
